@@ -5,10 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.orbot90.http.server.request.RequestHandler;
 
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -43,6 +40,12 @@ public class ConnectionThreadedHandler implements Runnable {
             dataOutputStream.writeBytes(response);
         } catch (Exception e) {
             LOGGER.error("Connection error", e);
+        } finally {
+            try {
+                client.close();
+            } catch (IOException e) {
+                LOGGER.debug("Client socket closing failed", e);
+            }
         }
     }
 }

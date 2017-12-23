@@ -15,6 +15,7 @@ public class Application {
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
     public static void main(String[] args) throws IOException {
+        LOGGER.info("Starting application");
         Properties properties = new Properties();
         properties.load(new InputStreamReader(Application.class.getClassLoader().getResourceAsStream("server-config.properties")));
         int threadPoolSize = Integer.valueOf(properties.getProperty("server.threadpool.size"));

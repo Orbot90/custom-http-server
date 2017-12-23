@@ -29,10 +29,9 @@ public class ServerRunner {
     public void run() throws IOException {
         try (ServerSocket serverSocket = new ServerSocket(serverPort)) {
             while (true) {
-                try (Socket client = serverSocket.accept()) {
-                    ConnectionThreadedHandler handler = new ConnectionThreadedHandler(client);
-                    serverExecutor.submit(handler);
-                }
+                Socket client = serverSocket.accept();
+                ConnectionThreadedHandler handler = new ConnectionThreadedHandler(client);
+                serverExecutor.submit(handler);
             }
         }
     }

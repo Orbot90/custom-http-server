@@ -1,5 +1,7 @@
 package ru.orbot90.http.server;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.orbot90.http.server.request.RequestHandler;
 
 import java.io.BufferedReader;
@@ -9,11 +11,12 @@ import java.io.InputStreamReader;
  * Temporary request handler for testing purposes
  */
 public class TemporaryTestRequestHandler implements RequestHandler {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TemporaryTestRequestHandler.class);
+
     public String handleRequest(String request) {
         try {
-            System.out.println(request);
-            System.out.println();
-            System.out.println();
+            LOGGER.info("Received request: \n{}", request);
 
             // As a lazy bitch I've put whole response to html file
             BufferedReader fileReader = new BufferedReader(new InputStreamReader(
@@ -26,7 +29,7 @@ public class TemporaryTestRequestHandler implements RequestHandler {
             }
             return pageBuilder.toString();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error", e);
             return "";
         }
     }
