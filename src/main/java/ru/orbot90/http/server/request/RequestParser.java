@@ -8,9 +8,8 @@ public interface RequestParser {
     /**
      * Parse received request
      *
-     * @param requestString - String representation of received request
      * @return Object representation of received request
      */
-    HttpRequest parse(String requestString);
+    HttpRequest parse();
 
 }

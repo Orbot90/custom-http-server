@@ -1,18 +1,23 @@
 package ru.orbot90.http.server.request;
 
-import ru.orbot90.http.server.request.url.ParsedUrl;
-
 /**
  * Object representation for HTTP request
  */
 public class HttpRequest {
-    private ParsedUrl parsedUrl;
+    private RequestLine requestLine;
 
-    public ParsedUrl getParsedUrl() {
-        return parsedUrl;
+    public RequestLine getRequestLine() {
+        return requestLine;
     }
 
-    public void setParsedUrl(ParsedUrl parsedUrl) {
-        this.parsedUrl = parsedUrl;
+    public void setRequestLine(RequestLine requestLine) {
+        this.requestLine = requestLine;
+    }
+
+    @Override
+    public String toString() {
+        return requestLine.getRequestMethod().getMethodName() + " " +
+                requestLine.getParsedUrl() + " " +
+                requestLine.getHttpVersion();
     }
 }
