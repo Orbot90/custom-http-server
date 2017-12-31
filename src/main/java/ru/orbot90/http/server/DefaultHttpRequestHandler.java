@@ -4,14 +4,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.orbot90.http.server.request.HttpRequest;
 import ru.orbot90.http.server.request.RequestHandler;
+import ru.orbot90.http.server.request.RequestMethod;
 import ru.orbot90.http.server.request.RequestParserImpl;
 import ru.orbot90.http.server.request.exception.HttpException;
+import ru.orbot90.http.server.request.exception.MethodNotAllowedException;
 import ru.orbot90.http.server.response.HttpResponse;
 import ru.orbot90.http.server.response.ResponseStatusCode;
 
-public class HttpRequestHandler implements RequestHandler {
+public class DefaultHttpRequestHandler implements RequestHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HttpRequestHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultHttpRequestHandler.class);
 
     @Override
     public String handleRequest(String request) {
@@ -21,7 +23,7 @@ public class HttpRequestHandler implements RequestHandler {
         try {
             HttpRequest httpRequest = new RequestParserImpl(request).parse();
 
-
+            this.checkRequestMethod(httpRequest);
             response.setResponseStatusCode(ResponseStatusCode.OK);
         } catch (HttpException e) {
             LOGGER.error("Error handling request", e);
@@ -33,5 +35,11 @@ public class HttpRequestHandler implements RequestHandler {
 
 
         return response.toString();
+    }
+
+    private void checkRequestMethod(HttpRequest httpRequest) {
+        if (httpRequest.getRequestMethod() != RequestMethod.GET) {
+            throw new MethodNotAllowedException("Only GET method is allowed in default handler");
+        }
     }
 }

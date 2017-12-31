@@ -21,6 +21,10 @@ public class HttpRequest {
         this.requestHeaders = requestHeaders;
     }
 
+    public RequestMethod getRequestMethod() {
+        return this.requestLine.getRequestMethod();
+    }
+
     public String getHeader(String headerKey) {
         return this.requestHeaders.getHeaderValue(headerKey);
     }
