@@ -1,6 +1,7 @@
 package ru.orbot90.http.server.request;
 
 import org.apache.commons.lang3.StringUtils;
+import ru.orbot90.http.server.request.exception.MethodNotImplementedException;
 import ru.orbot90.http.server.request.header.RequestHeaders;
 import ru.orbot90.http.server.request.url.ParsedUrl;
 
@@ -48,6 +49,9 @@ public class RequestParserImpl implements RequestParser {
         RequestLine requestLineObject = new RequestLine();
         String[] requestLineTokens = requestLine.split(" ");
         RequestMethod method = RequestMethod.getByName(requestLineTokens[0]);
+        if (method == RequestMethod.UNDEFINED) {
+            throw new MethodNotImplementedException("Method " + requestLineTokens[0] + " is not implemented");
+        }
         requestLineObject.setRequestMethod(method);
 
         ParsedUrl parsedUrl = this.parseUri(requestLineTokens[1]);

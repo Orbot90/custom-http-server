@@ -5,6 +5,9 @@ import org.slf4j.LoggerFactory;
 import ru.orbot90.http.server.request.HttpRequest;
 import ru.orbot90.http.server.request.RequestHandler;
 import ru.orbot90.http.server.request.RequestParserImpl;
+import ru.orbot90.http.server.request.exception.HttpException;
+import ru.orbot90.http.server.response.HttpResponse;
+import ru.orbot90.http.server.response.ResponseStatusCode;
 
 public class HttpRequestHandler implements RequestHandler {
 
@@ -14,10 +17,21 @@ public class HttpRequestHandler implements RequestHandler {
     public String handleRequest(String request) {
         LOGGER.info("Received request: \n{}", request);
 
-        HttpRequest httpRequest = new RequestParserImpl(request).parse();
+        HttpResponse response = new HttpResponse();
+        try {
+            HttpRequest httpRequest = new RequestParserImpl(request).parse();
 
 
-        // TODO: return response
-        return null;
+            response.setResponseStatusCode(ResponseStatusCode.OK);
+        } catch (HttpException e) {
+            LOGGER.error("Error handling request", e);
+            response.setResponseStatusCode(e.getResponseStatusCode());
+        } catch (Exception e) {
+            LOGGER.error("Error handling request", e);
+            response.setResponseStatusCode(ResponseStatusCode.INTERNAL_SERVER_ERROR);
+        }
+
+
+        return response.toString();
     }
 }
