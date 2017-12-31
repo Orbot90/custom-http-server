@@ -33,4 +33,11 @@ public class RequestLine {
     public void setHttpVersion(String httpVersion) {
         this.httpVersion = httpVersion;
     }
+
+    @Override
+    public String toString() {
+        return this.getRequestMethod().getMethodName() + " " +
+                this.getParsedUrl() + " " +
+                this.getHttpVersion();
+    }
 }

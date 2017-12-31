@@ -1,23 +1,33 @@
 package ru.orbot90.http.server.request;
 
+import ru.orbot90.http.server.request.header.RequestHeaders;
+
 /**
  * Object representation for HTTP request
  */
 public class HttpRequest {
     private RequestLine requestLine;
+    private RequestHeaders requestHeaders;
 
-    public RequestLine getRequestLine() {
+    RequestLine getRequestLine() {
         return requestLine;
     }
 
-    public void setRequestLine(RequestLine requestLine) {
+    void setRequestLine(RequestLine requestLine) {
         this.requestLine = requestLine;
+    }
+
+    void setRequestHeaders(RequestHeaders requestHeaders) {
+        this.requestHeaders = requestHeaders;
+    }
+
+    public String getHeader(String headerKey) {
+        return this.requestHeaders.getHeaderValue(headerKey);
     }
 
     @Override
     public String toString() {
-        return requestLine.getRequestMethod().getMethodName() + " " +
-                requestLine.getParsedUrl() + " " +
-                requestLine.getHttpVersion();
+        return requestLine + "\n" +
+                requestHeaders + "\n";
     }
 }

@@ -78,4 +78,16 @@ public class RequestParserTest {
         expectedParameters.put("test", Collections.singletonList("1"));
         assertEquals("Wrong parsed parameters", expectedParameters, parameters);
     }
+
+    @Test
+    public void testParseCorrectHeaders() {
+        RequestParser requestParser = new RequestParserImpl(TEST_REQUEST_WITH_HOST);
+        HttpRequest parsedRequest = requestParser.parse();
+        String hostHeader = parsedRequest.getHeader("Host");
+        assertEquals("Wrong host header value", "tools.ietf.org", hostHeader);
+        String connectionHeader = parsedRequest.getHeader("Connection");
+        assertEquals("Wrong connection header value", "keep-alive", connectionHeader);
+        String cacheControlHeader = parsedRequest.getHeader("cache-COnTrol");
+        assertEquals("Wrong cache-control header value", "max-age=0", cacheControlHeader);
+    }
 }

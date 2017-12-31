@@ -1,6 +1,7 @@
 package ru.orbot90.http.server.request;
 
 import org.apache.commons.lang3.StringUtils;
+import ru.orbot90.http.server.request.header.RequestHeaders;
 import ru.orbot90.http.server.request.url.ParsedUrl;
 
 import java.util.*;
@@ -23,7 +24,24 @@ public class RequestParserImpl implements RequestParser {
     public HttpRequest parse() {
         String[] requestLines = this.requestString.split("\n");
         this.parseRequestLine(requestLines[0]);
+        this.parseHeaders(requestLines);
         return parsedRequest;
+    }
+
+    private void parseHeaders(String[] requestLines) {
+        RequestHeaders requestHeaders = new RequestHeaders();
+        Map<String, String> requestHeadersMap = new LinkedHashMap<>();
+        for (int i = 1; i < requestLines.length; i++) {
+            if (StringUtils.isEmpty(requestLines[i])) {
+                break;
+            }
+
+            String headerRow = requestLines[i];
+            int indexOfColon = headerRow.indexOf(':');
+            requestHeadersMap.put(headerRow.substring(0, indexOfColon), headerRow.substring(indexOfColon + 1).trim());
+        }
+        requestHeaders.addAllHeaders(requestHeadersMap);
+        this.parsedRequest.setRequestHeaders(requestHeaders);
     }
 
     private void parseRequestLine(String requestLine) {
