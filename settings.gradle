@@ -1,2 +1,4 @@
 rootProject.name = 'http-server'
+include 'http-server-core'
+include 'http-server-standalone'
 

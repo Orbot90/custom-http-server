@@ -1,4 +1,4 @@
-package ru.orbot90.http.server;
+package ru.orbot90.http.server.standalone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

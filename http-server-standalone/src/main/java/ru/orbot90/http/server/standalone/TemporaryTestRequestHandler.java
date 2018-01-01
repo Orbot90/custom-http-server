@@ -1,4 +1,4 @@
-package ru.orbot90.http.server;
+package ru.orbot90.http.server.standalone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +20,7 @@ public class TemporaryTestRequestHandler implements RequestHandler {
 
             // As a lazy bitch I've put whole response to html file
             BufferedReader fileReader = new BufferedReader(new InputStreamReader(
-                    Application.class.getClassLoader().getResourceAsStream("test.html")));
+                    TemporaryTestRequestHandler.class.getClassLoader().getResourceAsStream("test.html")));
             String pageLine = fileReader.readLine();
             StringBuilder pageBuilder = new StringBuilder();
             while (pageLine != null) {

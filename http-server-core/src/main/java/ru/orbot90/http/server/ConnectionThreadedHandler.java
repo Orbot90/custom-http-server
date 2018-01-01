@@ -14,12 +14,13 @@ import java.net.Socket;
 public class ConnectionThreadedHandler implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConnectionThreadedHandler.class);
+
     private final Socket client;
+    private final RequestHandler requestHandler;
 
-    private final RequestHandler requestHandler = new TemporaryTestRequestHandler();
-
-    public ConnectionThreadedHandler(Socket client) {
+    public ConnectionThreadedHandler(Socket client, RequestHandler requestHandler) {
         this.client = client;
+        this.requestHandler = requestHandler;
     }
 
     @Override

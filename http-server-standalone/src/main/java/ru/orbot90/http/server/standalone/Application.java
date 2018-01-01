@@ -1,7 +1,8 @@
-package ru.orbot90.http.server;
+package ru.orbot90.http.server.standalone;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.orbot90.http.server.ServerRunner;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,7 +23,10 @@ public class Application {
         int serverPort = Integer.valueOf(properties.getProperty("server.port"));
 
         try {
-            new ServerRunner(threadPoolSize, serverPort).run();
+            new ServerRunner().threadPoolSize(threadPoolSize)
+                    .serverPort(serverPort)
+                    .requestHandler(new TemporaryTestRequestHandler())
+                    .run();
         } catch (Throwable e) {
             LOGGER.error("Error running server. Application is stopped", e);
         }
